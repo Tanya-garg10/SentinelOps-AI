@@ -6,8 +6,6 @@
 
 **SentinelOps AI** is a governed multi-agent SRE system designed for the **HiDevs Agent Arena PS03: “Enterprise Cloud Incident Triage & Runbook Remediation Agent”**. It investigates cloud infrastructure incidents, diagnoses evidence-backed root causes, proposes safe runbook remediation, blocks destructive operations behind deterministic policy governance and human approval, and generates auditable AIMS postmortems.
 
----
-
 ## 1. Project Title
 **SentinelOps AI — Enterprise Cloud Incident Triage & Runbook Remediation Platform**
 
@@ -336,15 +334,6 @@ Test cases verified:
 - Low-Confidence (<0.90) Gate Requirement
 - Human Approval & Rejection State Transitions
 - Blameless RCA Generation & Preventative Action Items
-
-## 19. Screenshots & Visual Interface
-The web interface provides an enterprise dark-mode SRE console:
-- **Top Metrics Strip**: Live system status, active incident counter, P1/P2 indicators, average agent confidence.
-- **Workflow Stepper**: Visual progression from Alert Ingestion → Triage → Diagnosis → Remediation → Governance → HITL → Execution → RCA.
-- **Decision Dependency Graph**: Interactive causal graph linking deployment trigger to memory spike, GC pauses, latency, and checkout failure.
-- **Evidence Cards Grid**: Inspect verified telemetry evidence (`METRIC-001`, `LOG-021`, `DEPLOY-009`, `TRACE-017`).
-- **Telemetry Charts**: Real-time Recharts visualization showing degradation curve and post-rollback recovery.
-- **AIMS Audit Log**: Live audit ledger recording every agent deliberation and policy checkpoint.
 
 ## 20. Future Scope
 - Live bidirectional Kubernetes operator via CRD controllers.
