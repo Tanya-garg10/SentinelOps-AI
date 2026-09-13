@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  sentinelops-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentinelops-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEMO_MODE=true
+      - LYZR_API_KEY=${LYZR_API_KEY:-lyzr_demo_key}
+      - LYZR_AGENT_ID=${LYZR_AGENT_ID:-agent_sentinelops_sre_01}
+      - LYZR_ENVIRONMENT_ID=${LYZR_ENVIRONMENT_ID:-env_cloud_prod_01}
+      - DATABASE_URL=sqlite:///./sentinelops.db
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  sentinelops-frontend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: sentinelops-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
+    depends_on:
+      - sentinelops-backend
+    restart: unless-stopped

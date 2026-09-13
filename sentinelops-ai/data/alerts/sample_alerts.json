@@ -1,0 +1,77 @@
+[
+  {
+    "alert_id": "ALT-001",
+    "service": "checkout-api",
+    "alert_name": "ContainerMemoryUtilizationHigh",
+    "severity": "critical",
+    "metric": "container_memory_working_set_bytes",
+    "threshold": "90%",
+    "current_value": "94.2%",
+    "environment": "production",
+    "timestamp": "2026-09-13T18:01:12Z",
+    "labels": {
+      "cluster": "prod-useast-01",
+      "namespace": "ecommerce",
+      "pod": "checkout-api-7b49f-x9c1a"
+    }
+  },
+  {
+    "alert_id": "ALT-002",
+    "service": "checkout-api",
+    "alert_name": "ContainerMemoryUtilizationHigh",
+    "severity": "critical",
+    "metric": "container_memory_working_set_bytes",
+    "threshold": "90%",
+    "current_value": "93.8%",
+    "environment": "production",
+    "timestamp": "2026-09-13T18:01:25Z",
+    "labels": {
+      "cluster": "prod-useast-01",
+      "namespace": "ecommerce",
+      "pod": "checkout-api-7b49f-m2b8z"
+    }
+  },
+  {
+    "alert_id": "ALT-004",
+    "service": "checkout-api",
+    "alert_name": "Http5xxRateElevated",
+    "severity": "critical",
+    "metric": "http_requests_total{status=~'5..'}",
+    "threshold": "5%",
+    "current_value": "18.4%",
+    "environment": "production",
+    "timestamp": "2026-09-13T18:01:30Z",
+    "labels": {
+      "endpoint": "/api/v1/checkout/process",
+      "status_code": "500"
+    }
+  },
+  {
+    "alert_id": "ALT-007",
+    "service": "checkout-api",
+    "alert_name": "HttpLatencyP99Exceeded",
+    "severity": "warning",
+    "metric": "http_request_duration_seconds{quantile='0.99'}",
+    "threshold": "2.0s",
+    "current_value": "4.82s",
+    "environment": "production",
+    "timestamp": "2026-09-13T18:01:45Z",
+    "labels": {
+      "route": "/checkout"
+    }
+  },
+  {
+    "alert_id": "ALT-009",
+    "service": "checkout-api",
+    "alert_name": "KubePodCrashLooping",
+    "severity": "critical",
+    "metric": "kube_pod_container_status_restarts_total",
+    "threshold": "3 restarts / 10m",
+    "current_value": "8 restarts",
+    "environment": "production",
+    "timestamp": "2026-09-13T18:02:00Z",
+    "labels": {
+      "exit_code": "137"
+    }
+  }
+]

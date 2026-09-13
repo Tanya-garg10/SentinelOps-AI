@@ -1,0 +1,30 @@
+[
+  {
+    "id": "LOG-018",
+    "timestamp": "2026-09-13T17:58:10Z",
+    "service": "checkout-api",
+    "level": "INFO",
+    "message": "Checkout service initialized version v2.8.1 with new memory-resident transaction cache"
+  },
+  {
+    "id": "LOG-021",
+    "timestamp": "2026-09-13T18:00:44Z",
+    "service": "checkout-api",
+    "level": "ERROR",
+    "message": "java.lang.OutOfMemoryError: Java heap space at com.sentinel.checkout.cache.SessionCache.put(SessionCache.java:142)"
+  },
+  {
+    "id": "LOG-024",
+    "timestamp": "2026-09-13T18:01:05Z",
+    "service": "checkout-api",
+    "level": "WARN",
+    "message": "GC overhead limit exceeded: Full GC took 3240ms, reclaimed only 12MB out of 4096MB"
+  },
+  {
+    "id": "LOG-029",
+    "timestamp": "2026-09-13T18:01:35Z",
+    "service": "checkout-api",
+    "level": "FATAL",
+    "message": "Heap allocation failed in thread pool worker-8. Termination requested with signal SIGKILL (exit code 137)"
+  }
+]

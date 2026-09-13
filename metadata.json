@@ -1,0 +1,6 @@
+{
+  "name": "SentinelOps AI",
+  "description": "Governed multi-agent SRE system for autonomous cloud incident triage, root cause diagnosis, runbook remediation, and Safe AI governance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

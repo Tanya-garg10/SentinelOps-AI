@@ -1,0 +1,36 @@
+{
+  "triage_agent": {
+    "name": "SentinelOps Triage Agent",
+    "role": "Alert Ingestion, Normalization, Deduplication and P1-P4 Severity Classification",
+    "model": "lyzr-agent-v1",
+    "temperature": 0.1,
+    "confidence_threshold": 0.90
+  },
+  "diagnostic_agent": {
+    "name": "SentinelOps Diagnostic Agent",
+    "role": "Evidence-backed Root Cause Analysis across Telemetry, Logs, Traces and Deployments",
+    "model": "lyzr-agent-v1",
+    "temperature": 0.1,
+    "require_evidence": true
+  },
+  "remediation_agent": {
+    "name": "SentinelOps Remediation Agent",
+    "role": "Predefined Runbook Selection, Risk Profiling, and Parameter Synthesis",
+    "model": "lyzr-agent-v1",
+    "temperature": 0.0,
+    "allowed_runbooks": [
+      "GET_LOGS",
+      "GET_METRICS",
+      "RESTART_POD",
+      "SCALE_SERVICE",
+      "ROLLBACK_DEPLOYMENT",
+      "CLEAR_CACHE"
+    ]
+  },
+  "rca_agent": {
+    "name": "SentinelOps Blameless RCA Agent",
+    "role": "Post-Incident Blameless Review, Timeline Reconstruction, and Preventative Actions",
+    "model": "lyzr-agent-v1",
+    "temperature": 0.2
+  }
+}

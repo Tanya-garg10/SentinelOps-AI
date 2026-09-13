@@ -1,0 +1,22 @@
+{
+  "scenario_id": "SCENARIO-CHECKOUT-P1",
+  "name": "Checkout API Production Outage (Memory Leak in v2.8.1)",
+  "service": "checkout-api",
+  "expected_severity": "P1",
+  "trigger_alerts": ["ALT-001", "ALT-002", "ALT-004", "ALT-007", "ALT-009"],
+  "expected_root_cause": "Unbounded memory growth in transaction cache introduced in deployment v2.8.1 causing severe GC pauses and OutOfMemory container terminations",
+  "expected_confidence": 0.94,
+  "required_evidence": ["METRIC-001", "LOG-021", "DEPLOY-009", "TRACE-017"],
+  "recommended_runbook": "ROLLBACK_DEPLOYMENT",
+  "runbook_args": {
+    "target": "checkout-api",
+    "from_version": "v2.8.1",
+    "to_version": "v2.8.0"
+  },
+  "risk_level": "HIGH_RISK",
+  "requires_hitl": true,
+  "recovery_metrics": {
+    "before": { "memory_pct": 94.2, "latency_s": 4.82, "error_rate_pct": 18.4, "restarts": 8 },
+    "after": { "memory_pct": 71.2, "latency_ms": 620, "error_rate_pct": 1.2, "restarts": 0 }
+  }
+}

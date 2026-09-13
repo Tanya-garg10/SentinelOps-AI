@@ -1,0 +1,15 @@
+{
+  "service": "checkout-api",
+  "environment": "production",
+  "degradation_series": [
+    { "timestamp": "17:50", "memory_pct": 62.1, "latency_ms": 480, "error_rate_pct": 0.8, "status": "nominal" },
+    { "timestamp": "17:55", "memory_pct": 71.4, "latency_ms": 1200, "error_rate_pct": 3.4, "status": "degraded" },
+    { "timestamp": "18:00", "memory_pct": 82.0, "latency_ms": 2800, "error_rate_pct": 8.7, "status": "critical" },
+    { "timestamp": "18:05", "memory_pct": 94.2, "latency_ms": 4820, "error_rate_pct": 18.4, "status": "failing" }
+  ],
+  "post_remediation_series": [
+    { "timestamp": "18:07", "memory_pct": 83.5, "latency_ms": 2100, "error_rate_pct": 7.1, "status": "recovering" },
+    { "timestamp": "18:08", "memory_pct": 74.0, "latency_ms": 890, "error_rate_pct": 2.4, "status": "stabilizing" },
+    { "timestamp": "18:10", "memory_pct": 71.2, "latency_ms": 620, "error_rate_pct": 1.2, "status": "resolved" }
+  ]
+}
