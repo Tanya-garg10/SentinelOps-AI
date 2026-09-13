@@ -175,66 +175,98 @@ Clicking **“Test Dangerous Action”** tests system containment:
 - Zero execution occurs; an audit event is registered.
 
 ## 13. Tech Stack
-- **Frontend**: Next.js / React 19, TypeScript, Tailwind CSS, Lucide React, Recharts, Motion.
+- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, Lucide React, Recharts, Framer Motion.
 - **Backend**: Python 3.10, FastAPI, Pydantic, Express / Node.js orchestration proxy.
 - **AI / Multi-Agent**: Lyzr Agent API & SDK architecture, Lyzr Safe AI governance, structured JSON outputs.
 - **Observability**: Prometheus metrics format, OpenTelemetry trace spans, CloudWatch logs simulator, AIMS audit trail.
 
 ## 14. Repository Structure
 ```
-sentinelops-ai/
-├── agents/
-│   ├── triage_agent.py
-│   ├── diagnostic_agent.py
-│   ├── remediation_agent.py
-│   ├── rca_agent.py
-│   ├── orchestrator.py
-│   └── configs/
-│       └── agent_configs.json
-├── backend/
-│   ├── main.py
-│   ├── routes/
-│   │   ├── alerts.py
-│   │   ├── incidents.py
-│   │   ├── actions.py
-│   │   └── audit.py
-│   ├── models/
-│   │   └── schemas.py
-│   ├── services/
-│   │   └── incident_service.py
-│   ├── governance/
-│   │   ├── policy_engine.py
-│   │   ├── action_classifier.py
-│   │   └── hitl.py
-│   └── tools/
-│       ├── mock_metrics.py
-│       ├── mock_logs.py
-│       ├── mock_traces.py
-│       ├── mock_deployments.py
-│       └── mock_executor.py
-├── data/
-│   ├── alerts/
-│   ├── logs/
-│   ├── metrics/
-│   ├── deployments/
-│   └── scenarios/
-├── tests/
-│   ├── test_governance.py
-│   └── test_agents.py
-├── run_python_tests.py
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
+sentinelops/
+├── src/                          # React Frontend
+│   ├── components/              # React components
+│   │   ├── AgentsView.tsx
+│   │   ├── AlertsView.tsx
+│   │   ├── AuditTrailView.tsx
+│   │   ├── DangerousActionModal.tsx
+│   │   ├── GovernanceView.tsx
+│   │   ├── IncidentDetailView.tsx
+│   │   ├── RCAListView.tsx
+│   │   ├── RunbooksView.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── StatsCards.tsx
+│   │   ├── TopBar.tsx
+│   │   └── WorkflowStepper.tsx
+│   ├── data/
+│   │   └── mockData.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   ├── index.css
+│   └── types.ts
+├── sentinelops-ai/               # Python Backend
+│   ├── agents/
+│   │   ├── triage_agent.py
+│   │   ├── diagnostic_agent.py
+│   │   ├── remediation_agent.py
+│   │   ├── rca_agent.py
+│   │   ├── orchestrator.py
+│   │   └── configs/
+│   │       └── agent_configs.json
+│   ├── backend/
+│   │   ├── main.py
+│   │   ├── routes/
+│   │   │   ├── alerts.py
+│   │   │   ├── incidents.py
+│   │   │   ├── actions.py
+│   │   │   └── audit.py
+│   │   ├── models/
+│   │   │   └── schemas.py
+│   │   ├── services/
+│   │   │   └── incident_service.py
+│   │   ├── governance/
+│   │   │   ├── policy_engine.py
+│   │   │   ├── action_classifier.py
+│   │   │   └── hitl.py
+│   │   └── tools/
+│   │       ├── mock_metrics.py
+│   │       ├── mock_logs.py
+│   │       ├── mock_traces.py
+│   │       ├── mock_deployments.py
+│   │       └── mock_executor.py
+│   ├── data/
+│   │   ├── alerts/
+│   │   ├── logs/
+│   │   ├── metrics/
+│   │   ├── deployments/
+│   │   └── scenarios/
+│   ├── tests/
+│   │   ├── test_governance.py
+│   │   └── test_agents.py
+│   ├── run_python_tests.py
+│   ├── docker-compose.yml
+│   └── requirements.txt
+├── package.json                  # Node.js dependencies
+├── vite.config.ts               # Vite configuration
+├── tsconfig.json                # TypeScript configuration
+├── server.ts                    # Express server
+├── index.html                   # Entry HTML
+├── .env.example                 # Environment variables template
+└── README.md                    # This file
 ```
 
 ## 15. Local Setup
 
 ### Running Full-Stack Web Platform (Port 3000)
 ```bash
-# 1. Install dependencies
+# 1. Install frontend dependencies
 npm install
 
-# 2. Launch full-stack platform
+# 2. Install Python backend dependencies
+cd sentinelops-ai
+pip install -r requirements.txt
+cd ..
+
+# 3. Launch full-stack platform
 npm run dev
 # Application accessible at http://localhost:3000
 ```
@@ -248,6 +280,7 @@ python3 -m backend.main
 
 ### Running with Docker Compose
 ```bash
+cd sentinelops-ai
 docker-compose up --build
 ```
 
