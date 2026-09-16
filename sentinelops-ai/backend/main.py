@@ -6,10 +6,16 @@ import os
 import sys
 
 try:
-    from fastapi import FastAPI, BackgroundTasks
+    from fastapi import FastAPI, BackgroundTasks, Request
     from fastapi.middleware.cors import CORSMiddleware
     from fastapi.responses import JSONResponse
-except ImportError:
+    
+    # Import core components
+    from backend.core.config import settings
+    from backend.core.logger import logger
+    from backend.core.exceptions import SentinelOpsException, GovernanceViolationException, global_exception_handler, governance_exception_handler
+except ImportError as e:
+    print(f"Failed to import core modules: {e}")
     # Minimal fallback placeholder if running pure standalone script
     class FastAPI:
         def __init__(self, *args, **kwargs): pass
@@ -32,16 +38,31 @@ try:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-except Exception:
-    pass
+    
+    # Register exception handlers
+    app.add_exception_handler(Exception, global_exception_handler)
+    app.add_exception_handler(GovernanceViolationException, governance_exception_handler)
+    
+    # Middleware for request logging
+    @app.middleware("http")
+    async def log_requests(request: Request, call_next):
+        logger.info(f"Incoming request: {request.method} {request.url}")
+        response = await call_next(request)
+        logger.info(f"Response status: {response.status_code}")
+        return response
+        
+except Exception as e:
+    print(f"Failed to add middleware/handlers: {e}")
 
 @app.get("/api/health")
 def health_check():
+    logger.info("Health check endpoint called")
     return {
         "status": "healthy",
-        "service": "sentinelops-backend",
+        "service": settings.app_name,
+        "environment": settings.environment,
         "demo_mode": os.environ.get("DEMO_MODE", "true") == "true",
-        "lyzr_configured": bool(os.environ.get("LYZR_API_KEY"))
+        "lyzr_configured": bool(settings.api_key)
     }
 
 if __name__ == "__main__":
