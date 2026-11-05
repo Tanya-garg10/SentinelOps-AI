@@ -10,7 +10,7 @@ class MockExecutor:
     @staticmethod
     def execute_action(action: str, target: str, params: Dict[str, Any] = None) -> Dict[str, Any]:
         params = params or {}
-        now = datetime.datetime.utcnow().isoformat() + "Z"
+        now = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 
         if action == "ROLLBACK_DEPLOYMENT":
             from_version = params.get("from_version", "v2.8.1")

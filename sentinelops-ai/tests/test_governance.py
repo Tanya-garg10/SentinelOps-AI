@@ -114,5 +114,35 @@ class TestGovernanceEngine(unittest.TestCase):
         self.assertTrue(rej["success"])
         self.assertEqual(rej["request"]["status"], "REJECTED")
 
+    def test_normalized_action_names_and_token_validation(self):
+        """Actions with spacing or punctuation should be normalized and approval tokens should be enforced."""
+        result = self.policy_engine.evaluate(
+            action="  rollback deployment  ",
+            target="checkout-api",
+            environment="production",
+            confidence=0.98,
+            evidence=self.mock_evidence,
+        )
+        self.assertEqual(result["decision"], "REQUIRES_APPROVAL")
+
+        request = self.hitl.create_request(
+            "ACT-999",
+            "INC-999",
+            "DROP DATABASE",
+            "checkout-db",
+            "DESTRUCTIVE",
+            "Attempting to delete production data",
+            action_parameters={"table": "orders"},
+        )
+        self.assertIn("approval_token", request)
+        self.assertIn("action_fingerprint", request)
+
+        invalid = self.hitl.validate_approval(
+            "ACT-999",
+            {"action": "DROP DATABASE", "target": "checkout-db", "risk": "DESTRUCTIVE", "reason": "Different reason"},
+            approval_token=request["approval_token"],
+        )
+        self.assertFalse(invalid["valid"])
+
 if __name__ == "__main__":
     unittest.main()

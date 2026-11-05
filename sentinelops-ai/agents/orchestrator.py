@@ -61,7 +61,7 @@ class Orchestrator:
         event_id = f"AUD-{len(self.audit_log) + 1:03d}"
         event = {
             "event_id": event_id,
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
             "incident_id": incident_id,
             "actor": actor,
             "event_type": event_type,
@@ -195,8 +195,8 @@ class Orchestrator:
             "hypotheses": diagnosis["hypotheses"],
             "proposed_action": proposal,
             "hitl_request": hitl_req,
-            "created_at": datetime.datetime.utcnow().isoformat() + "Z",
-            "updated_at": datetime.datetime.utcnow().isoformat() + "Z"
+            "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+            "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
         }
 
         self.incidents[incident_id] = incident_record

@@ -42,6 +42,36 @@ class PolicyEngine:
         env_normalized = (environment or "production").lower()
         is_prod = env_normalized in ["production", "prod"]
 
+        if action is None or str(action).strip() == "":
+            return {
+                "decision": PolicyDecision.BLOCKED,
+                "risk": RiskLevel.UNKNOWN.value,
+                "reason": "Action name is required for safe execution.",
+                "requires_human_approval": False,
+                "evaluated_rules": ["RULE-001: Action existence and allowlist check"],
+                "safe_ai_status": "BLOCK"
+            }
+
+        if target is None or str(target).strip() == "":
+            return {
+                "decision": PolicyDecision.BLOCKED,
+                "risk": RiskLevel.UNKNOWN.value,
+                "reason": "Target resource is required for governance evaluation.",
+                "requires_human_approval": False,
+                "evaluated_rules": ["RULE-001: Action existence and allowlist check"],
+                "safe_ai_status": "BLOCK"
+            }
+
+        if params is not None and not isinstance(params, dict):
+            return {
+                "decision": PolicyDecision.BLOCKED,
+                "risk": RiskLevel.UNKNOWN.value,
+                "reason": "Request parameters must be provided as a dictionary.",
+                "requires_human_approval": False,
+                "evaluated_rules": ["RULE-009: Verified safe action execution through governed executor"],
+                "safe_ai_status": "BLOCK"
+            }
+
         evaluated_rules = []
         rule_violations = []
 

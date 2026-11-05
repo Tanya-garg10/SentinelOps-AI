@@ -15,7 +15,7 @@ class RCAAgent:
 
     def run(self, incident: Dict[str, Any], timeline: List[Dict[str, Any]], evidence: List[Dict[str, Any]], execution_result: Dict[str, Any]) -> Dict[str, Any]:
         incident_id = incident.get("incident_id", "INC-001")
-        now = datetime.datetime.utcnow().isoformat() + "Z"
+        now = datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
 
         action_items = [
             {

@@ -27,7 +27,7 @@ class IncidentService:
     def log_audit(self, incident_id: str, actor: str, event_type: str, decision: str, confidence: float = 1.0, policy_result: str = "PASS", input_ref: str = "", details: Any = None) -> Dict[str, Any]:
         evt = {
             "event_id": f"AUD-{len(self.audit_events) + 1:03d}",
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
             "incident_id": incident_id,
             "actor": actor,
             "event_type": event_type,

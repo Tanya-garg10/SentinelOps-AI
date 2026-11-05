@@ -2,6 +2,7 @@
 SentinelOps AI Action Classifier
 Categorizes proposed remediation actions into deterministic risk tiers and enforces allowlist restrictions.
 """
+import re
 from typing import Dict, Any, Tuple
 from enum import Enum
 
@@ -36,13 +37,41 @@ class ActionClassifier:
         "DISABLE_AUTH": RiskLevel.DESTRUCTIVE,
     }
 
+    @staticmethod
+    def normalize_action_name(action_name: Any) -> str:
+        if action_name is None:
+            return ""
+
+        normalized = str(action_name).strip()
+        normalized = re.sub(r"[^A-Z0-9]+", "_", normalized.upper())
+        normalized = re.sub(r"_+", "_", normalized).strip("_")
+        return normalized
+
     @classmethod
     def classify(cls, action_name: str) -> Tuple[bool, RiskLevel, str]:
-        normalized = (action_name or "").strip().upper()
+        normalized = cls.normalize_action_name(action_name)
 
         # Check for arbitrary command injection patterns
-        shell_keywords = ["SH", "BASH", "EXEC", "RM -RF", "CURL", "WGET", "SUDO", ";", "&&", "|"]
-        if any(kw in normalized for kw in shell_keywords):
+        shell_keywords = [
+            "SH",
+            "BASH",
+            "EXEC",
+            "RM",
+            "CURL",
+            "WGET",
+            "SUDO",
+            "PIP",
+            "NPM",
+            "YARN",
+            "KUBECTL",
+            "SSH",
+            "POWERSHELL",
+            "CMD",
+            "NETCAT",
+            "TELNET",
+        ]
+        shell_syntax = [";", "&&", "||", "|", "$(", "`", "<", ">"]
+        if any(kw in normalized for kw in shell_keywords) or any(token in str(action_name or "") for token in shell_syntax):
             return False, RiskLevel.DESTRUCTIVE, "Arbitrary shell commands and unvalidated syntax are strictly prohibited."
 
         if normalized in cls.PROHIBITED_ACTIONS:
